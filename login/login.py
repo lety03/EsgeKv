@@ -1,4 +1,3 @@
-from kivy.app import App
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -14,14 +13,10 @@ from kivymd.uix.button import MDRoundFlatButton
 from kivymd.uix.button import MDFillRoundFlatIconButton
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
-from kivy.clock import Clock, mainthread
-import json
 
 
 manager = ScreenManager()
-# nomeProduto = ''
-# qntProduto = ''
-# qntIdeal = ''
+
 #tela de login do usuario
 class LoginWindow(Screen):
     def __init__(self, **kwargs):
@@ -29,7 +24,6 @@ class LoginWindow(Screen):
         # self.rows = 2
         self.subgrid = GridLayout()
         self.subgrid.size_hint_y = 0.5
-        # self.subgrid.size_hint_min_x
         print("metodo init login: "+str(self.manager))
         self.add_widget(self.subgrid)
         pass
@@ -40,7 +34,6 @@ class LoginWindow(Screen):
         print("metodo acessar antes: "+str(self.manager.current))
         if (nome == 'edna' and senha == '1234'):
             self.ids.msg.text += ", "+nome
-            # manager.current = 'home'
             manager.switch_to(HomeWindow())
             print("metodo acessar: "+str(self.manager.current))
             pass
@@ -51,12 +44,8 @@ class LoginWindow(Screen):
 
 #tela da home do app
 class HomeWindow(Screen):
-    # self.add_widget(Label(text="Bem vindo(a) ao ESGE", font_size='18sp')index=2)
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)      
-              
-        # self.add_widget(self.ExibirProdutos(), len(self.children))
-        # print(self)
+        super().__init__(**kwargs)        
         pass
 
     def ExibirAlterarProduto(self, instance):
@@ -70,44 +59,14 @@ class HomeWindow(Screen):
         self.subgrid = GridLayout(size_hint_y=None)
         self.subscroll.size_hint = ("0.3dp", 1)
         
-        # Montando campo com os produtos
-        # fruits = ["apple", "banana", "cherry","apple", "banana", "cherry","apple", "banana", "cherry", "banana", "cherry","apple", "banana", "cherry","apple", "banana", "cherry", "banana", "cherry","apple", "banana", "cherry","apple", "banana", "cherry", "banana", "cherry","apple", "banana", "cherry","apple", "banana", "cherry"]
         fruits = [["apple", 1, 4], ["banana",2,2], ["cherry",3,4],["apple", 4 , 6],[ "banana", 5 ,4], ["cherry",6,4],["apple", 7 , 6],[ "banana", 8 ,4], ["cherry",9,4],["apple", 10 , 6],[ "banana", 11 ,4], ["cherry",11,4],["apple", 12 , 6],[ "banana", 13 ,4], ["cherry",14,4],["apple", 15 , 6],[ "banana", 15 ,4], ["cherry",3,4],["apple", 5 , 6],[ "banana", 4 ,4]]
         self.cols = 1
         qntProdutos = len(fruits)
         self.subgrid.rows = qntProdutos
         self.subgrid.cols = 1
-        # self.ExibirAlterarProduto("","","")
-        # nomeProduto = ''
-        # qntProduto = 0
-        # qntIdeal = 0
         '''
         TENTANDO TRAZER DADOS DO CAMPO ALTERAÇÃO SELECIONADO PARA OUTRA FUNÇÃO
         '''
-        # for x in fruits:
-        #     nomeProduto = ''
-        #     qntProduto = 0
-        #     qntIdeal = 0
-        #     nomeProduto = x[0]
-        #     qntProduto = x[1]
-        #     qntIdeal = x[2]           
-        #     idProduto = 'id'+x[0]
-
-        #     btnAlterar = MDRectangleFlatButton(text='', id=idProduto , on_press=LoginAlterarProdutoWindow(name='AlterarProduto').AlterarProduto, on_release=lambda x:Clock.schedule_once(lambda x:manager.switch_to(LoginAlterarProdutoWindow(name='AlterarProduto')), 3), font_size='10sp')        
-        #     
-        #     btnAlterar.subfloat = GridLayout()
-        #     btnAlterar.subfloat.cols = 3
-        #     btnAlterar.subfloat.add_widget(Label(text=nomeProduto,font_size='10sp',padding=(10, 10), size_hint_x=1))
-        #     btnAlterar.subfloat.add_widget(Label(text=str(qntProduto),font_size='10sp',padding=(10, 10), size_hint_x=1))
-        #     btnAlterar.subfloat.add_widget(Label(text=str(qntIdeal),font_size='10sp',padding=(10, 10), size_hint_x=1))
-        #     btnAlterar.size_hint_x = 10
-        #     btnAlterar.size_hint_y = None
-        #     btnAlterar.size = '200dp','200dp'
-        #     btnAlterar.add_widget(btnAlterar.subfloat)
-            
-        #     self.subgrid.add_widget(btnAlterar)
-
-        # Retornando os layouts, a Grid fica dentro do Scroll 
         self.subgrid.bind(minimum_height = self.subgrid.setter("height"))
         self.subscroll.add_widget(self.subgrid)
         self.subscroll.size_hint_y =0.59
@@ -143,6 +102,7 @@ class LoginAlterarProdutoWindow(Screen, GridLayout):
         super().__init__(**kwargs)
         scroll = self.ExibirItems()
         self.add_widget(scroll, len(self.children))
+        print(self)
         # print('No init: '+str(self.children))
         
 
@@ -196,11 +156,17 @@ class LoginAlterarProdutoWindow(Screen, GridLayout):
         # print(self.children)
 
         # Adicionando o layout de alteração
+
+        # Declarando layout da janela e do form do produto
         self.floatLy = FloatLayout()
         self.gridLy = GridLayout()
+
+        # Ajustando a o grid
         self.gridLy.size_hint = .8, .8
         self.gridLy.cols = 1
         self.gridLy.rows = 8
+
+        # Adicionando a label e inputs do form 
         self.gridLy.add_widget(Label(text='Produto', size_hint_y=0.5))
         lbItem = TextInput(text=nomeAlt)
         lbItem.size_hint_y=None 
@@ -216,6 +182,8 @@ class LoginAlterarProdutoWindow(Screen, GridLayout):
         lbIdeal.size_hint_y=None 
         lbIdeal.size = '50dp','30dp'
         self.gridLy.add_widget(lbIdeal)
+
+        # Criando e Adicionando botões de salvar e voltar
         btnSalvar = MDRectangleFlatButton(text='Salvar')
         btnHome = MDRectangleFlatButton(text='Voltar', on_press=lambda x:self.remove_widget(self.floatLy) , on_release=lambda x:self.__init__())
         btnSalvar.size_hint_x = 0.1
@@ -226,21 +194,17 @@ class LoginAlterarProdutoWindow(Screen, GridLayout):
         self.gridLy.add_widget(btnHome)
         self.gridLy.pos_hint =  {'center_x': 0.5, 'center_y': 0.5}
         self.gridLy.spacing = '10dp'
+
+        # adicionando o layout do form ao layout da pagina 
         self.floatLy.add_widget(self.gridLy)
+        # adicionando o layout da pagina
         self.add_widget(self.floatLy)
-        # return print(self.floatLy)
-        
 
     def Excluir(self):
-        # print(self.ids.labelTeste)
-        # self.size_hint = 0,0
-        # self.remove_widget(self.children[0])
         layouAlterar = self.children[0]
         layoutBtn = layouAlterar.children[0]
         print(layoutBtn)
         print(layoutBtn)
-        # layoutBtn.size_hint = 1,1
-        # self.add_widget(Button(text='voltar', on_press=self.ExibirAlterar, font_size='10sp')) 
         
         
 class ExibirItems(RecycleView):
@@ -251,10 +215,58 @@ class ExibirItems(RecycleView):
 
 #tela de busca de produtos
 class BuscarProdutoWindow(Screen):
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.cols = 1
-        pass
+
+        self.scroll = ScrollView(always_overscroll=True,do_scroll_y=True,bar_color=(.8, .7, .7, .9))
+        self.scroll.size_hint_y = .75
+        self.add_widget(self.scroll)
+
+    def LimparGrid(self):
+        self.scroll.clear_widgets()        
+
+    def ExibirProduto(self):
+        item = self.ids.itemBusca.text
+        resultado = []
+
+        if resultado != []:
+
+            self.grid = GridLayout(size_hint_y=None)
+            self.scroll.size_hint_y = .75
+            self.grid.pos_hint = {'center_y': .1}
+            
+            print(self.grid.children)
+            
+            self.scroll.clear_widgets
+
+            self.grid.cols = 1
+            self.grid.rows = len(resultado)
+
+            for x in resultado:           
+                button = MDRoundFlatButton()
+                btngrid = GridLayout()
+                button.size_hint_x = 1
+                button.size_hint_y = None
+                button.size = '100dp','100dp'
+                btngrid.cols = 3
+                btngrid.add_widget(Label(text=item))
+                btngrid.add_widget(Label(text=str(x[1])))
+                btngrid.add_widget(Label(text=str(x[2])))
+                button.add_widget(btngrid)
+
+                self.grid.add_widget(button)
+
+            self.grid.bind(minimum_height = self.grid.setter("height"))
+            self.scroll.add_widget(self.grid)
+            return self.grid
+        else:
+            boxLy = BoxLayout(size_hint_y=None, orientation='vertical')
+            boxLy.add_widget(Label(text='Sem resultados para'))
+            boxLy.add_widget(Label(text=str(item)))
+            self.scroll.add_widget(boxLy)
+            print('chegou aqui')
+            return boxLy
 
 class loginApp(MDApp):
     def build(self):
