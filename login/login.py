@@ -111,7 +111,7 @@ class LoginAlterarProdutoWindow(Screen, GridLayout):
         self.grid = GridLayout(size_hint_y=None)
         self.cols = 1
         self.scroll.size_hint = ("0.3dp", 1)
-        fruits = [["apple", 1, 4], ["banana",2,2], ["cherry",3,4],["apple", 4 , 6],[ "banana", 5 ,4], ["cherry",6,4],["apple", 7 , 6],[ "banana", 8 ,4], ["cherry",9,4],["apple", 10 , 6],[ "banana", 11 ,4], ["cherry",11,4],["apple", 12 , 6],[ "banana", 13 ,4], ["cherry",14,4],["apple", 15 , 6],[ "banana", 15 ,4], ["cherry",3,4],["apple", 5 , 6],[ "banana", 4 ,4]]
+        fruits = [["apple verde da tailandia ca", 1, 4], ["banana",2,2], ["cherry",3,4],["apple", 4 , 6],[ "banana", 5 ,4], ["cherry",6,4],["apple", 7 , 6],[ "banana", 8 ,4], ["cherry",9,4],["apple", 10 , 6],[ "banana", 11 ,4], ["cherry",11,4],["apple", 12 , 6],[ "banana", 13 ,4], ["cherry",14,4],["apple", 15 , 6],[ "banana", 15 ,4], ["cherry",3,4],["apple", 5 , 6],[ "banana", 4 ,4]]
 
         qntItem = len(fruits)      
         self.grid.cols  = 1
@@ -123,7 +123,7 @@ class LoginAlterarProdutoWindow(Screen, GridLayout):
 
             btnItem.gridBtn = GridLayout()
             btnItem.gridBtn.cols = 3
-            btnItem.gridBtn.add_widget(Label(text=x[0],font_size='10sp',padding=(10, 10), size_hint_x=1))
+            btnItem.gridBtn.add_widget(Label(text=x[0],font_size='10sp',padding=(10, 10), size_hint_x=1 ,  text_size=(100, None)))
             btnItem.gridBtn.add_widget(Label(text=str(x[1]), font_size='10sp',padding=(10, 10), size_hint_x=1))
             btnItem.gridBtn.add_widget(Label(text=str(x[2]), font_size='10sp',padding=(10, 10), size_hint_x=1))
 
@@ -206,29 +206,22 @@ class LoginAlterarProdutoWindow(Screen, GridLayout):
         print(layoutBtn)
         print(layoutBtn)
         
-        
-class ExibirItems(RecycleView):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.cols = 1
-        pass
-
 #tela de busca de produtos
-class BuscarProdutoWindow(Screen):
+class BuscarProdutoWindow(Screen, GridLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         self.scroll = ScrollView(always_overscroll=True,do_scroll_y=True,bar_color=(.8, .7, .7, .9))
         self.scroll.size_hint_y = .75
-        self.add_widget(self.scroll)
+        self.add_widget(self.scroll, index=2)
 
     def LimparGrid(self):
-        self.scroll.clear_widgets()        
+        self.scroll.clear_widgets()
 
     def ExibirProduto(self):
         item = self.ids.itemBusca.text
-        resultado = []
+        resultado = [["apple", 1, 4], ["banana",2,2], ["cherry",3,4]]
 
         if resultado != []:
 
@@ -242,15 +235,16 @@ class BuscarProdutoWindow(Screen):
 
             self.grid.cols = 1
             self.grid.rows = len(resultado)
+            self.grid.spacing = '2dp'
 
             for x in resultado:           
-                button = MDRoundFlatButton()
+                button = MDRectangleFlatButton()
                 btngrid = GridLayout()
                 button.size_hint_x = 1
                 button.size_hint_y = None
                 button.size = '100dp','100dp'
                 btngrid.cols = 3
-                btngrid.add_widget(Label(text=item))
+                btngrid.add_widget(Label(text=item, font_size='10sp', size_hint_x= 2, padding=(10, 10), text_size=(100, None)))
                 btngrid.add_widget(Label(text=str(x[1])))
                 btngrid.add_widget(Label(text=str(x[2])))
                 button.add_widget(btngrid)
